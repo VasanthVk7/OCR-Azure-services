@@ -18,10 +18,23 @@ from azure.ai.vision.imageanalysis.models import VisualFeatures
 from azure.core.credentials import AzureKeyCredential
 
 
-LANGUAGES = {'English':'',
-             'Hindi':''}
+LANGUAGES = {'English':'en',
+             'Spanish':'es',
+             "German":'de',
+             'Chinese':'zh-Hans',
+             'Japanese':'ja',
+             'French':'fr',
+             'Italian':'it',
+             'Arabic':'ar',
+             'Tamil':'ta',
+             "Malayalam":'ml',
+             'Kannada':'kn',
+             'Telugu':'te',
+             'Hindi':'hi',
+            
+             }
 
-EXTRACTED_TEXT = ""
+# EXTRACTED_TEXT = ""
 
 load_dotenv()
 ai_endpoint = os.getenv('AI_SERVICE_ENDPOINT')
@@ -61,7 +74,7 @@ def GetTextRead(image_file):
         # Return the text detected in the image
         # Return the text detected in the image
         print(f"  {line.text}")    
-        sentence += line.text
+        sentence += " "+ line.text
         # drawLinePolygon = True
 
         # r = line.bounding_polygon
@@ -102,11 +115,13 @@ def process_image(file):
         image_path = file.name
     print(image_path)
         # Display the image and store the path
+    global EXTRACTED_TEXT
     EXTRACTED_TEXT = GetTextRead(image_path)
     return file, EXTRACTED_TEXT
 
 def dd_change(dropdown):
     print(dropdown)
+    print(EXTRACTED_TEXT)
     translated_text = translate_text(EXTRACTED_TEXT, LANGUAGES[dropdown])
     return translated_text
 # Create the Gradio interface
